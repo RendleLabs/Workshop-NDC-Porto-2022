@@ -1,3 +1,5 @@
+using Orders.Ingredients.Protos;
+using Orders.PubSub;
 using Orders.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+
+var ingredientsUri = builder.Configuration.GetServiceUri("Ingredients")
+                     ?? new Uri("https://localhost:5003");
+
+builder.Services.AddGrpcClient<IngredientsService.IngredientsServiceClient>(options =>
+{
+    options.Address = ingredientsUri;
+});
+
+builder.Services.AddOrderPubSub();
 
 var app = builder.Build();
 
