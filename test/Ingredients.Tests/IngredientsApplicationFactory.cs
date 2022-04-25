@@ -37,6 +37,20 @@ public class IngredientsApplicationFactory : WebApplicationFactory<TestMarker>
                 .Returns(toppings);
 
             services.AddSingleton(toppingSub);
+            
+            services.RemoveAll<ICrustData>();
+
+            var crusts = new List<CrustEntity>
+            {
+                new("thin", "Thin", 9, 5d, 10)
+            };
+
+            var crustSub = Substitute.For<ICrustData>();
+            crustSub.GetAsync(Arg.Any<CancellationToken>())
+                .Returns(crusts);
+
+            services.AddSingleton(crustSub);
+            
         });
         base.ConfigureWebHost(builder);
     }
