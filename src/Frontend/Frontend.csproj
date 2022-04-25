@@ -17,6 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\decimal.proto">
+      <GrpcServices>None</GrpcServices>
+    </Protobuf>
     <Protobuf Include="Protos\ingredients.proto" GrpcServices="Client" />
   </ItemGroup>
 

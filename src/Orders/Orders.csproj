@@ -7,16 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\ingredients.proto" GrpcServices="Server" Access="internal" />
-    <Protobuf Include="Protos\decimal.proto" GrpcServices="None" Access="internal" />
+    <Protobuf Include="Protos\orders.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Ingredients.Data\Ingredients.Data.csproj" />
   </ItemGroup>
 
 </Project>

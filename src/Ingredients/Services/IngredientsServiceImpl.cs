@@ -83,4 +83,18 @@ internal class IngredientsServiceImpl : Protos.IngredientsService.IngredientsSer
             throw new RpcException(new Status(StatusCode.Internal, ex.Message, ex));
         }
     }
+
+    public override async Task<DecrementToppingsResponse> DecrementToppings(DecrementToppingsRequest request, ServerCallContext context)
+    {
+        var tasks = request.ToppingIds
+            .Select(id => _toppingData.DecrementStockAsync(id, context.CancellationToken));
+        await Task.WhenAll(tasks);
+        return new DecrementToppingsResponse();
+    }
+
+    public override async Task<DecrementCrustsResponse> DecrementCrusts(DecrementCrustsRequest request, ServerCallContext context)
+    {
+        await _crustData.DecrementStockAsync(request.CrustId, context.CancellationToken);
+        return new DecrementCrustsResponse();
+    }
 }
