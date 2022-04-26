@@ -14,7 +14,7 @@ namespace Ingredients.Tests;
 
 public class IngredientsApplicationFactory : WebApplicationFactory<TestMarker>
 {
-    public IngredientsService.IngredientsServiceClient CreateGrpcClient()
+    internal IngredientsService.IngredientsServiceClient CreateGrpcClient()
     {
         var channel = this.CreateGrpcChannel();
         return new IngredientsService.IngredientsServiceClient(channel);

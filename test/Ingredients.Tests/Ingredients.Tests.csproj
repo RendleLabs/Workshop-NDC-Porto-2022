@@ -35,8 +35,19 @@
   
   <ItemGroup>
     <Protobuf Include="../../src/Ingredients/Protos/ingredients.proto" GrpcServices="Client">
+      <Access>internal</Access>
       <Link>Protos/ingredients.proto</Link>
     </Protobuf>
+    <Protobuf Include="Protos\decimal.proto">
+      <Access>internal</Access>
+      <GrpcServices>None</GrpcServices>
+    </Protobuf>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\..\src\Ingredients\Protos\DecimalValue.cs">
+      <Link>Protos\DecimalValue.cs</Link>
+    </Compile>
   </ItemGroup>
 
 </Project>
