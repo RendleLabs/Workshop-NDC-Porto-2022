@@ -10,6 +10,8 @@ spec:
   replicas: 1
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: frontend
     spec:
@@ -38,6 +40,13 @@ spec:
           value: '80'
         - name: Service__Orders__Protocol
           value: 'http'
+        - name: Jaeger__ServiceName
+          value: 'frontend'
+        - name: Jaeger__Host
+          value: 'jaeger-agent'
+        - name: Jaeger__Port
+          value: '6831'
+          
 
 ---
 
@@ -53,4 +62,3 @@ spec:
   ports:
   - port: 80
     nodePort: 30001
-    

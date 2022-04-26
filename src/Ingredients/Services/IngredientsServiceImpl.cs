@@ -24,6 +24,8 @@ internal class IngredientsServiceImpl : Protos.IngredientsService.IngredientsSer
         try
         {
             var toppings = await _toppingData.GetAsync(context.CancellationToken);
+            
+            _logger.LogInformation("Found {Count} toppings", toppings.Count);
 
             var response = new GetToppingsResponse
             {
@@ -56,6 +58,8 @@ internal class IngredientsServiceImpl : Protos.IngredientsService.IngredientsSer
         try
         {
             var crusts = await _crustData.GetAsync(context.CancellationToken);
+            
+            _logger.LogInformation("Found {Count} crusts", crusts.Count);
 
             var response = new GetCrustsResponse
             {

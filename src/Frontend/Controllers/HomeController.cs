@@ -7,6 +7,7 @@ namespace Frontend.Controllers;
 
 public class HomeController : Controller
 {
+    private static readonly ActivitySource Source = new ActivitySource("Frontend");
     private readonly IngredientsService.IngredientsServiceClient _ingredients;
     private readonly ILogger<HomeController> _logger;
 
@@ -18,10 +19,18 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+        var activity = Source.StartActivity("GetIngredients", ActivityKind.Client);
+        
         var toppingsTask = GetToppingsAsync();
         var crustsTask = GetCrustsAsync();
 
         await Task.WhenAll(toppingsTask, crustsTask);
+
+        activity?.AddTag("topping-count", toppingsTask.Result.Count);
+        activity?.AddTag("crust-count", crustsTask.Result.Count);
+        
+        activity?.Dispose();
+        
         var viewModel = new HomeViewModel(toppingsTask.Result, crustsTask.Result);
         return View(viewModel);
     }

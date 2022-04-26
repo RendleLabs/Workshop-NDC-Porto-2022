@@ -1,7 +1,10 @@
 using Frontend.Ingredients.Protos;
+using JaegerTracing;
 using Orders.Protos;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddJaegerTracing("Frontend");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

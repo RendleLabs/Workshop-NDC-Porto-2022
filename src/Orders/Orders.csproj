@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\JaegerTracing\JaegerTracing.csproj" />
     <ProjectReference Include="..\Orders.PubSub\Orders.PubSub.csproj" />
   </ItemGroup>
 
