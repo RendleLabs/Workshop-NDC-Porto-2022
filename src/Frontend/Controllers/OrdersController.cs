@@ -1,4 +1,6 @@
-﻿using Frontend.Models;
+﻿using Frontend.Auth;
+using Frontend.Models;
+using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
 using Orders.Protos;
 
@@ -8,11 +10,14 @@ namespace Frontend.Controllers;
 public class OrdersController : Controller
 {
     private readonly OrderService.OrderServiceClient _orders;
+    private readonly AuthHelper _authHelper;
     private readonly ILogger<OrdersController> _log;
 
-    public OrdersController(OrderService.OrderServiceClient orders, ILogger<OrdersController> log)
+    public OrdersController(OrderService.OrderServiceClient orders,
+        AuthHelper authHelper, ILogger<OrdersController> log)
     {
         _orders = orders;
+        _authHelper = authHelper;
         _log = log;
     }
 
@@ -29,6 +34,7 @@ public class OrdersController : Controller
             },
             CrustId = viewModel.SelectedCrust
         };
+
         await _orders.PlaceOrderAsync(request);
         return View();
     }

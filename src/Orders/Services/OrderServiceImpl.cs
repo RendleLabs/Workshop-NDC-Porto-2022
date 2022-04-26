@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using Orders;
 using Orders.Ingredients.Protos;
@@ -26,8 +28,17 @@ public class OrderServiceImpl : OrderService.OrderServiceBase
         _logger = logger;
     }
 
+    [Authorize]
     public override async Task<PlaceOrderResponse> PlaceOrder(PlaceOrderRequest request, ServerCallContext context)
     {
+        var httpContext = context.GetHttpContext();
+        var user = httpContext.User;
+        var name = user.FindFirst(ClaimTypes.Name)?.Value;
+        if (!string.Equals(name, "frontend", StringComparison.InvariantCultureIgnoreCase))
+        {
+            throw new RpcException(new Status(StatusCode.PermissionDenied, "Only Frontend can place orders"));
+        }
+        
         var decrementToppingsRequest = new DecrementToppingsRequest
         {
             ToppingIds = {request.ToppingIds}
